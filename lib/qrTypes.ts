@@ -322,6 +322,48 @@ export const createQRSchemas = () => ({
         currency: z.string().length(3, 'Currency code must be 3 letters').optional().default('USD'), // Not used in URL but validated
         item: z.string().max(100, 'Item description is too long').optional(),
     }),
+
+    tiktok: z.object({
+        username: z
+            .string()
+            .min(1, 'TikTok username is required')
+            .max(24, 'TikTok username is too long')
+            .regex(/^@?[A-Za-z0-9_.]+$/, 'Invalid TikTok username format')
+            .transform((val) => (val.startsWith('@') ? val.slice(1) : val)),
+    }),
+
+    stripe: z.object({
+        paymentLink: z.string().url('Please enter a valid Stripe payment link'),
+    }),
+
+    app_store: z.object({
+        appId: z.string().min(1, 'App ID is required'),
+        platform: z.enum(['ios', 'android']).default('ios'),
+    }),
+
+    calendar: z.object({
+        title: z.string().min(1, 'Event title is required').max(200, 'Title is too long'),
+        start: z.string().datetime('Invalid start date/time'),
+        end: z.string().datetime('Invalid end date/time').optional(),
+        location: z.string().max(200, 'Location is too long').optional(),
+        description: z.string().max(1000, 'Description is too long').optional(),
+    }),
+
+    location: z.object({
+        latitude: z.number().min(-90).max(90),
+        longitude: z.number().min(-180).max(180),
+        label: z.string().max(100, 'Label is too long').optional(),
+    }),
+
+    pdf: z.object({
+        url: z.string().url('Please enter a valid PDF URL'),
+        title: z.string().max(200, 'Title is too long').optional(),
+    }),
+
+    spotify: z.object({
+        trackId: z.string().min(1, 'Spotify track ID is required'),
+        type: z.enum(['track', 'album', 'playlist']).default('track'),
+    }),
 })
 
 export type QRFormData = {

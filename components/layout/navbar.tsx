@@ -15,7 +15,7 @@ export function Navbar() {
             <nav className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <QrCode className="w-8 h-8 text-blue-600" />
-                    <span className="text-2xl font-bold text-gray-900">QR Pro</span>
+                    <span className="text-2xl font-bold text-gray-900">QR Owl</span>
                 </div>
 
                 <div className="flex items-center gap-4">

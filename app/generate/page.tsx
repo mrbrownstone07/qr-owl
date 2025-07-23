@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import QRForm from '@/components/qr-generator/QRForm'
+import { QRForm } from '@/components/qr-generator/QRForm'
 import { QRCustomization } from '@/components/qr-generator/QRCustomization'
-import { QR_TYPE_CONFIGS, QRTypeId } from '@/lib/qrTypes'
+import { QR_TYPE_CONFIGS, QRTypeID } from '@/lib/qrTypes'
 import { Navbar } from '@/components/layout/navbar'
 import {
   Select,
@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export default function GeneratePage() {
-  const [qrType, setQrType] = useState<QRTypeId>('url')
+  const [qrType, setQrType] = useState<QRTypeID>('url')
   const [qrContent, setQrContent] = useState('')
   const [qrImageDataUrl, setQrImageDataUrl] = useState('')
   const [customization, setCustomization] = useState({
@@ -80,7 +80,7 @@ export default function GeneratePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
 
-      <section className="container mx-auto px-4 pt-8 pb-6 text-center max-w-3xl">
+      {/* <section className="container mx-auto px-4 pt-8 pb-6 text-center max-w-3xl">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Create Beautiful QR Codes
         </h1>
@@ -90,7 +90,7 @@ export default function GeneratePage() {
         <Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-200">
           ✨ Professional Quality
         </Badge>
-      </section>
+      </section> */}
 
       <main className="container mx-auto px-4 pb-16 max-w-7xl">
         <div className="grid lg:grid-cols-5 gap-8">
@@ -104,7 +104,7 @@ export default function GeneratePage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Select value={qrType} onValueChange={(val) => setQrType(val as QRTypeId)}>
+                <Select value={qrType} onValueChange={(val) => setQrType(val as QRTypeID)}>
                   <SelectTrigger className="w-full h-12 bg-white border-gray-300">
                     <SelectValue placeholder="Choose QR Type" />
                   </SelectTrigger>
