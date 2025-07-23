@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 20, 20, 20;
+  --background-start-rgb: 245, 247, 250;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 240, 240, 240;
+    --background-start-rgb: 10, 10, 10;
+    --background-end-rgb: 18, 18, 18;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 222 15% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 15% 20%;
+    --muted-foreground: 215 15% 72%;
+    --accent: 222 15% 22%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 65% 35%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 15% 20%;
+    --input: 222 15% 20%;
+    --ring: 210 20% 84%;
+    --chart-1: 210 70% 65%;
+    --chart-2: 160 50% 50%;
+    --chart-3: 25 90% 60%;
+    --chart-4: 275 65% 60%;
+    --chart-5: 345 70% 60%;
+  }
+
+  .dark {
+    --background: 220 20% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 20% 95%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 20% 92%;
+    --muted-foreground: 215 16% 44%;
+    --accent: 210 25% 94%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 15% 90%;
+    --input: 210 15% 90%;
+    --ring: 222 47% 11%;
+    --chart-1: 222 70% 58%;
+    --chart-2: 164 60% 40%;
+    --chart-3: 32 100% 55%;
+    --chart-4: 283 60% 60%;
+    --chart-5: 10 90% 60%;
+    --radius: 0.5rem;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
