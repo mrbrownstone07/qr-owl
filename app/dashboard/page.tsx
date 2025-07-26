@@ -68,13 +68,17 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-md mx-auto text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to QR Pro</h1>
-            <p className="text-gray-600 mb-8">Sign in to access your dashboard and manage your QR codes</p>
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-6 py-16">
+        <div className="w-full max-w-md glass rounded-2xl p-8 shadow-glass border border-border/30 backdrop-blur-md">
+          <div className="text-center space-y-6">
+            <h1 className="text-4xl font-display font-semibold gradient-text-brand">
+              Welcome to QR Pro
+            </h1>
+            <p className="text-muted-foreground text-base">
+              Sign in to access your dashboard and manage your QR codes.
+            </p>
             <AuthModal>
-              <Button size="lg" className="w-full">
+              <Button size="lg" className="w-full btn-glow">
                 Sign In to Continue
               </Button>
             </AuthModal>

@@ -1,7 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -22,7 +28,7 @@ export function AuthModal({ children }: AuthModalProps) {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!email.trim()) {
       toast.error('Please enter your email address')
       return
@@ -30,71 +36,76 @@ export function AuthModal({ children }: AuthModalProps) {
 
     setLoading(true)
     const { error } = await signIn(email)
-    
+
     if (error) {
       toast.error(error.message)
     } else {
       setEmailSent(true)
       toast.success('Check your email for the magic link!')
     }
-    
+
     setLoading(false)
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-md glass rounded-2xl border border-border/30 shadow-glass backdrop-blur-md px-6 py-8">
+        <DialogHeader className="text-center mb-4">
+          <DialogTitle className="text-2xl font-display font-semibold gradient-text-brand flex items-center justify-center gap-2">
             <LogIn className="w-5 h-5" />
             Sign In to Continue
           </DialogTitle>
         </DialogHeader>
-        
+
         {emailSent ? (
-          <div className="text-center py-6">
-            <Mail className="w-12 h-12 mx-auto mb-4 text-green-500" />
-            <h3 className="text-lg font-medium mb-2">Check Your Email</h3>
-            <p className="text-gray-600 mb-4">
-              We've sent a magic link to <strong>{email}</strong>
+          <div className="text-center space-y-4">
+            <Mail className="w-12 h-12 mx-auto text-success animate-float" />
+            <h3 className="text-lg font-medium">Check Your Email</h3>
+            <p className="text-muted-foreground">
+              We’ve sent a magic link to <strong>{email}</strong>
             </p>
-            <p className="text-sm text-gray-500">
-              Click the link in your email to sign in. You can close this window.
+            <p className="text-sm text-muted-foreground">
+              Click the link in your inbox to log in. You may close this window.
             </p>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => {
                 setEmailSent(false)
                 setEmail('')
               }}
-              className="mt-4"
+              className="mt-4 interactive-subtle"
             >
-              Use Different Email
+              Use a Different Email
             </Button>
           </div>
         ) : (
-          <form onSubmit={handleSignIn} className="space-y-4">
-            <div>
-              <Label htmlFor="email">Email Address</Label>
+          <form onSubmit={handleSignIn} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-foreground">
+                Email Address
+              </Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="you@example.com"
                 required
+                className="focus:ring-2 focus:ring-ring focus:outline-none transition-all"
               />
             </div>
-            
-            <Button type="submit" disabled={loading} className="w-full">
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-glow interactive"
+            >
               {loading ? 'Sending Magic Link...' : 'Send Magic Link'}
             </Button>
-            
-            <p className="text-xs text-gray-500 text-center">
-              We'll send you a secure link to sign in without a password
+
+            <p className="text-xs text-muted-foreground text-center">
+              We'll email you a secure sign-in link — no password needed.
             </p>
           </form>
         )}

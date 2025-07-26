@@ -82,6 +82,7 @@
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.16",
+    "supabase": "^2.31.8",
     "tailwindcss-animate": "^1.0.7"
   }
 }

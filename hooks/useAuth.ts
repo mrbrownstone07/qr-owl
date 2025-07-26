@@ -13,36 +13,43 @@ export function useAuth() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user ?? null)
-      
-      if (session?.user) {
-        await fetchProfile(session.user.id)
+      const { data: { session }, error } = await supabase.auth.getSession()
+
+      if (error) {
+        console.error('Error getting session:', error.message)
+        setLoading(false)
+        return
       }
-      
+
+      const currentUser = session?.user ?? null
+      setUser(currentUser)
+
+      if (currentUser) {
+        await fetchProfile(currentUser.id)
+      }
+
       setLoading(false)
     }
 
     getInitialSession()
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setUser(session?.user ?? null)
-        
-        if (session?.user) {
-          await fetchProfile(session.user.id)
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (_, session) => {
+        const updatedUser = session?.user ?? null
+        setUser(updatedUser)
+
+        if (updatedUser) {
+          await fetchProfile(updatedUser.id)
         } else {
           setProfile(null)
         }
-        
+
         setLoading(false)
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => listener?.subscription.unsubscribe()
   }, [])
 
   const fetchProfile = async (userId: string) => {
@@ -53,37 +60,34 @@ export function useAuth() {
         .eq('id', userId)
         .single()
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching profile:', error)
-        return
-      }
-
       if (data) {
         setProfile(data)
-      } else {
-        // Create profile if it doesn't exist
+      } else if (error && error.code === 'PGRST116') {
+        const fallbackEmail = user?.email ?? ''
         const { data: newProfile, error: insertError } = await supabase
           .from('profiles')
           .insert({
             id: userId,
-            email: user?.email || '',
+            email: fallbackEmail,
             subscription_tier: 'free'
           })
           .select()
           .single()
 
         if (insertError) {
-          console.error('Error creating profile:', insertError)
+          console.error('Failed to create profile:', insertError)
         } else {
           setProfile(newProfile)
         }
+      } else if (error) {
+        console.error('Error fetching profile:', error)
       }
-    } catch (error) {
-      console.error('Error in fetchProfile:', error)
+    } catch (err) {
+      console.error('Unexpected error in fetchProfile:', err)
     }
   }
 
-  const signIn = async (email: string) => {
+  const signIn = async (email: string): Promise<{ error: Error | null }> => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -93,7 +97,7 @@ export function useAuth() {
     return { error }
   }
 
-  const signOut = async () => {
+  const signOut = async (): Promise<{ error: Error | null }> => {
     const { error } = await supabase.auth.signOut()
     return { error }
   }
